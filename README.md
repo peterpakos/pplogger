@@ -12,14 +12,13 @@ A recommended way of installing the module is pip install.
 ### pip install
 The tool is available in PyPI and can be installed using pip:
 ```
-$ pip install --upgrade pip setuptools wheel
-$ pip install pplogger
+$ pip install --user pplogger
 ```
 
 ## Usage
 ```
 from pplogger import get_logger
 
-log = get_logger()
+log = get_logger(debug=True)
 log.debug('Debug message')
 ```

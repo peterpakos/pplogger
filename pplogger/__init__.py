@@ -20,5 +20,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from .pplogger import get_logger
-
-VERSION = '2.0.0'

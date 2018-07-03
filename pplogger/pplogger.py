@@ -3,7 +3,7 @@
 
 Author: Peter Pakos <peter.pakos@wandisco.com>
 
-Copyright (C) 2017 WANdisco
+Copyright (C) 2018 WANdisco
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,31 +24,33 @@ import sys
 import logging
 
 
-def get_logger(debug=False, quiet=False, verbose=False, console_level='INFO', file_level=False, log_file=None):
-    if not verbose:
-        other_loggers = []
-        for key in logging.Logger.manager.loggerDict:
-            other_logger = str(key).split('.')[0]
-            if other_logger not in other_loggers:
-                other_loggers.append(other_logger)
-        for other_logger in other_loggers:
-            logging.getLogger(other_logger).propagate = False
+def get_logger(name='pplogger',
+               debug=False,
+               verbose=False,
+               quiet=False,
+               level=logging.DEBUG,
+               console_level=logging.INFO,
+               file_level=False,
+               log_file=None):
+    if verbose:
+        name = ''
 
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
 
-    if console_level and not quiet:
+    if quiet:
+        null_handler = logging.NullHandler()
+        logger.addHandler(null_handler)
+    else:
         if debug:
-            console_formatter = logging.Formatter('%(asctime)s [%(module)s] %(levelname)s %(message)s')
+            console_formatter = logging.Formatter('%(asctime)s [%(module)s] %(levelname)s %(message)s',
+                                                  datefmt='%Y-%m-%d %H:%M:%S')
         else:
             console_formatter = logging.Formatter('%(message)s')
         console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(logging.DEBUG if debug else getattr(logging, console_level.upper()))
+        console_handler.setLevel(logging.DEBUG if debug else console_level)
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)
-    else:
-        null_handler = logging.NullHandler()
-        logger.addHandler(null_handler)
 
     if file_level:
         if not log_file:
@@ -60,10 +62,10 @@ def get_logger(debug=False, quiet=False, verbose=False, console_level='INFO', fi
         file_formatter = logging.Formatter('%(asctime)s [%(module)s] %(levelname)s %(message)s')
         try:
             file_handler = logging.FileHandler(log_file, mode='w')
-            file_handler.setLevel(logging.DEBUG if debug else getattr(logging, str(file_level).upper()))
+            file_handler.setLevel(logging.DEBUG if debug else file_level)
             file_handler.setFormatter(file_formatter)
             logger.addHandler(file_handler)
-        except (PermissionError, IsADirectoryError, FileNotFoundError) as e:
+        except (os.error.PermissionError, os.error.IsADirectoryError, os.error.FileNotFoundError) as e:
             logger.critical(e)
             exit(1)
 
