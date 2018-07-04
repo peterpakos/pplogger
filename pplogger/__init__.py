@@ -19,4 +19,5 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from .__version__ import __version__
 from .pplogger import get_logger
