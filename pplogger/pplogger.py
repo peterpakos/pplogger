@@ -43,8 +43,9 @@ def get_logger(name='pplogger',
         logger.addHandler(null_handler)
     else:
         if debug:
-            console_formatter = logging.Formatter('%(asctime)s [%(module)s] %(levelname)s %(message)s',
-                                                  datefmt='%Y-%m-%d %H:%M:%S')
+            fmt = '%(asctime)s [%(module)s] %(levelname)s %(message)s'\
+                if verbose else '%(asctime)s %(levelname)s %(message)s'
+            console_formatter = logging.Formatter(fmt, datefmt='%Y-%m-%d %H:%M:%S')
         else:
             console_formatter = logging.Formatter('%(message)s')
         console_handler = logging.StreamHandler(sys.stdout)
