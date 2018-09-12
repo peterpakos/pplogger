@@ -52,6 +52,7 @@ def get_logger(name='pplogger',
         console_handler.setLevel(logging.DEBUG if debug else console_level)
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)
+        logging.getLogger().addHandler(logging.NullHandler())
 
     if file_level:
         if not log_file:
