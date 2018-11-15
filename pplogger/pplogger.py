@@ -24,7 +24,7 @@ import sys
 import logging
 
 
-def get_logger(name='',
+def get_logger(name=__name__,
                debug=False,
                verbose=False,
                quiet=False,
@@ -32,6 +32,8 @@ def get_logger(name='',
                console_level=logging.INFO,
                file_level=False,
                log_file=None):
+    if debug:
+        name = ''
 
     logger = logging.getLogger(name)
     logger.setLevel(level)
