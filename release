@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# It requires 'pypi' and 'testpypi' sections to be defined in .pypirc.
 
 set -euo pipefail
 
@@ -12,7 +14,8 @@ for f in *.md; do
   pandoc -s -f gfm -t rst "$f" > "${f%.md}.rst"
 done
 
-rm -f dist/*
+pip install twine
+rm -rf dist/*
 python setup.py package || true
 twine upload -r "${test}pypi" --skip-existing dist/* || true
 
