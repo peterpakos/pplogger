@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PP's Logger Module
+"""Logging helper
 
 Author: Peter Pakos <peter.pakos@wandisco.com>
 
@@ -24,7 +24,7 @@ import sys
 import logging
 
 
-def get_logger(name='pplogger',
+def get_logger(name='',
                debug=False,
                verbose=False,
                quiet=False,
@@ -32,8 +32,6 @@ def get_logger(name='pplogger',
                console_level=logging.INFO,
                file_level=False,
                log_file=None):
-    if verbose:
-        name = ''
 
     logger = logging.getLogger(name)
     logger.setLevel(level)
@@ -43,8 +41,7 @@ def get_logger(name='pplogger',
         logger.addHandler(null_handler)
     else:
         if debug:
-            fmt = '%(asctime)s [%(module)s] %(levelname)s %(message)s'\
-                if verbose else '%(asctime)s %(levelname)s %(message)s'
+            fmt = '%(asctime)s [%(module)s] %(levelname)s %(message)s'
             console_formatter = logging.Formatter(fmt, datefmt='%Y-%m-%d %H:%M:%S')
         else:
             console_formatter = logging.Formatter('%(message)s')

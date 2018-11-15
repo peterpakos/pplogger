@@ -1,5 +1,5 @@
 # pplogger
-PP's Logger Module
+Logging helper
 
 PyPI package: [pplogger](https://pypi.python.org/pypi/pplogger)
 
