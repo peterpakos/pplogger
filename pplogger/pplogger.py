@@ -32,7 +32,7 @@ def get_logger(name=__name__,
                console_level=logging.INFO,
                file_level=False,
                log_file=None):
-    if debug:
+    if debug and verbose:
         name = ''
 
     logger = logging.getLogger(name)
@@ -51,7 +51,7 @@ def get_logger(name=__name__,
         console_handler.setLevel(logging.DEBUG if debug else console_level)
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)
-        logging.getLogger().addHandler(logging.NullHandler())
+        logger.addHandler(logging.NullHandler())
 
     if file_level:
         if not log_file:
