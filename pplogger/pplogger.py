@@ -39,8 +39,7 @@ def get_logger(name=__name__,
     logger.setLevel(level)
 
     if quiet:
-        null_handler = logging.NullHandler()
-        logger.addHandler(null_handler)
+        logger.addHandler(logging.NullHandler())
     else:
         if debug:
             fmt = '%(asctime)s [%(module)s] %(levelname)s %(message)s'
