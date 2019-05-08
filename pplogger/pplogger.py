@@ -32,6 +32,7 @@ def get_logger(name=__name__,
                console_level=logging.INFO,
                file_level=False,
                log_file=None):
+
     if debug and verbose:
         name = ''
 
@@ -46,11 +47,16 @@ def get_logger(name=__name__,
             console_formatter = logging.Formatter(fmt, datefmt='%Y-%m-%d %H:%M:%S')
         else:
             console_formatter = logging.Formatter('%(message)s')
+
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(logging.DEBUG if debug else console_level)
         console_handler.setFormatter(console_formatter)
         logger.addHandler(console_handler)
-        logger.addHandler(logging.NullHandler())
+
+        if debug and verbose:
+            logging.getLogger('').addHandler(console_handler)
+        else:
+            logging.getLogger('').addHandler(logging.NullHandler())
 
     if file_level:
         if not log_file:
